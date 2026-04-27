@@ -1,122 +1,82 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from './assets/vite.svg'
-import heroImg from './assets/hero.png'
-import './App.css'
+import { useState } from 'react';
+import { List, Clock, Bell, User, Plus } from 'lucide-react';
 
 function App() {
-  const [count, setCount] = useState(0)
+  // This state will control whether we show the Calendar (Monthly) or the Tasks (Daily)
+  const [activeTab, setActiveTab] = useState('Daily');
 
   return (
-    <>
-      <section id="center">
-        <div className="hero">
-          <img src={heroImg} className="base" width="170" height="179" alt="" />
-          <img src={reactLogo} className="framework" alt="React logo" />
-          <img src={viteLogo} className="vite" alt="Vite logo" />
-        </div>
-        <div>
-          <h1>Get started</h1>
-          <p>
-            Edit <code>src/App.jsx</code> and save to test <code>HMR</code>
-          </p>
-        </div>
-        <button
-          type="button"
-          className="counter"
-          onClick={() => setCount((count) => count + 1)}
-        >
-          Count is {count}
-        </button>
-      </section>
+    // 1. THE PRESENTATION BACKGROUND (The split Yellow/Blue canvas)
+    <div className="min-h-screen bg-gradient-to-b from-[#fad54c] from-50% to-[#4b84f3] to-50% flex items-center justify-center p-6 font-sans">
+      
+      {/* 2. THE APP CONTAINER (The white phone screen) */}
+      <div className="w-full max-w-[400px] h-[800px] bg-white rounded-[2.5rem] shadow-2xl relative overflow-hidden flex flex-col">
+        
+        {/* --- HEADER SECTION --- */}
+        <div className="px-8 pt-10 pb-6 flex flex-col items-center">
+          {/* Logo */}
+          <h1 className="text-2xl font-black text-slate-900 tracking-tighter mb-6">
+            TTD
+          </h1>
 
-      <div className="ticks"></div>
-
-      <section id="next-steps">
-        <div id="docs">
-          <svg className="icon" role="presentation" aria-hidden="true">
-            <use href="/icons.svg#documentation-icon"></use>
-          </svg>
-          <h2>Documentation</h2>
-          <p>Your questions, answered</p>
-          <ul>
-            <li>
-              <a href="https://vite.dev/" target="_blank">
-                <img className="logo" src={viteLogo} alt="" />
-                Explore Vite
-              </a>
-            </li>
-            <li>
-              <a href="https://react.dev/" target="_blank">
-                <img className="button-icon" src={reactLogo} alt="" />
-                Learn more
-              </a>
-            </li>
-          </ul>
+          {/* The Pill Toggle Switch */}
+          <div className="w-full bg-slate-50 border border-slate-100 rounded-full p-1 flex shadow-sm">
+            <button 
+              onClick={() => setActiveTab('Monthly')}
+              className={`flex-1 py-3 rounded-full text-sm font-bold transition-all ${
+                activeTab === 'Monthly' 
+                  ? 'bg-blue-500 text-white shadow-md' 
+                  : 'text-slate-400 hover:text-slate-600'
+              }`}
+            >
+              Monthly
+            </button>
+            <button 
+              onClick={() => setActiveTab('Daily')}
+              className={`flex-1 py-3 rounded-full text-sm font-bold transition-all ${
+                activeTab === 'Daily' 
+                  ? 'bg-blue-500 text-white shadow-md' 
+                  : 'text-slate-400 hover:text-slate-600'
+              }`}
+            >
+              Daily
+            </button>
+          </div>
         </div>
-        <div id="social">
-          <svg className="icon" role="presentation" aria-hidden="true">
-            <use href="/icons.svg#social-icon"></use>
-          </svg>
-          <h2>Connect with us</h2>
-          <p>Join the Vite community</p>
-          <ul>
-            <li>
-              <a href="https://github.com/vitejs/vite" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#github-icon"></use>
-                </svg>
-                GitHub
-              </a>
-            </li>
-            <li>
-              <a href="https://chat.vite.dev/" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#discord-icon"></use>
-                </svg>
-                Discord
-              </a>
-            </li>
-            <li>
-              <a href="https://x.com/vite_js" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#x-icon"></use>
-                </svg>
-                X.com
-              </a>
-            </li>
-            <li>
-              <a href="https://bsky.app/profile/vite.dev" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#bluesky-icon"></use>
-                </svg>
-                Bluesky
-              </a>
-            </li>
-          </ul>
-        </div>
-      </section>
 
-      <div className="ticks"></div>
-      <section id="spacer"></section>
-    </>
-  )
+        {/* --- DYNAMIC CONTENT AREA --- */}
+        {/* This is where our Calendar or Task list will go based on the toggle */}
+        <div className="flex-1 overflow-y-auto px-8 pb-32">
+          {activeTab === 'Monthly' ? (
+            <div className="text-center text-slate-400 mt-20 font-medium">Monthly Calendar goes here...</div>
+          ) : (
+            <div className="text-center text-slate-400 mt-20 font-medium">Daily Task List goes here...</div>
+          )}
+        </div>
+
+        {/* --- BOTTOM NAVIGATION & FLOATING ACTION BUTTON --- */}
+        <div className="absolute bottom-0 left-0 w-full">
+          
+          {/* The Big Floating Plus Button */}
+          <div className="absolute -top-6 left-1/2 transform -translate-x-1/2 z-20">
+            <button className="w-16 h-16 bg-blue-500 rounded-full flex items-center justify-center text-white shadow-[0_8px_30px_rgb(59,130,246,0.5)] hover:bg-blue-600 transition-colors">
+              <Plus className="w-8 h-8" />
+            </button>
+          </div>
+
+          {/* The Bottom Nav Bar with fade gradient */}
+          <div className="h-24 bg-gradient-to-t from-white via-white to-white/80 backdrop-blur-sm flex items-end justify-between px-8 pb-6 text-slate-300 relative z-10">
+            <button className="p-2 hover:text-slate-500 transition-colors"><List className="w-6 h-6" /></button>
+            <button className="p-2 hover:text-slate-500 transition-colors mr-8"><Clock className="w-6 h-6" /></button>
+            <button className="p-2 hover:text-slate-500 transition-colors ml-8"><Bell className="w-6 h-6" /></button>
+            <button className="p-2 hover:text-slate-500 transition-colors"><User className="w-6 h-6" /></button>
+          </div>
+          
+        </div>
+
+      </div>
+    </div>
+  );
 }
 
-export default App
+export default App;
