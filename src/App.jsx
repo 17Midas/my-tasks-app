@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { List, Clock, Bell, User, Plus } from 'lucide-react';
+import DailyView from './components/DailyView';
 
 function App() {
   // This state will control whether we show the Calendar (Monthly) or the Tasks (Daily)
@@ -50,7 +51,7 @@ function App() {
           {activeTab === 'Monthly' ? (
             <div className="text-center text-slate-400 mt-20 font-medium">Monthly Calendar goes here...</div>
           ) : (
-            <div className="text-center text-slate-400 mt-20 font-medium">Daily Task List goes here...</div>
+            <DailyView/>
           )}
         </div>
 
